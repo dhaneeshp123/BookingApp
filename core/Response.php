@@ -24,7 +24,7 @@ class Response
     public function outputJson(array $jsonArray)
     {
         header("Content-Type:application/json;chartset=utf-8");
-        echo json_encode($jsonArray,true);
+        echo json_encode($jsonArray, true);
         exit;
     }
 
@@ -46,6 +46,17 @@ class Response
                 'status' => self::RESPONSE_STATUS_SUCCESS,
                 'statusCode' => self::RESPONSE_SUCCESS_CODE,
                 'result' => $result,
+            ]
+        );
+    }
+
+    public function outputErrorMessage(array $result)
+    {
+        $this->outputJson(
+            [
+                'status' => self::RESPONSE_STATUS_FAILED,
+                'statusCode' => self::RESPONSE_SUCCESS_CODE,
+                'errors' => $result,
             ]
         );
     }
