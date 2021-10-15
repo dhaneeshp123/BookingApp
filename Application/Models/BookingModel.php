@@ -18,8 +18,6 @@ class BookingModel extends Model
 
     protected string $bookingdate;
 
-    protected string $bookingCode;
-
     protected string $tableName = 'booking';
 
     protected function getAttributes(): array
