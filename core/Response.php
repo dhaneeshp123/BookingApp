@@ -60,5 +60,12 @@ class Response
             ]
         );
     }
+    
+    public function output(
+        int $status = self::RESPONSE_STATUS_SUCCESS,
+        array $headers = [],
+        $body
+    ){
+    }
 
 }
