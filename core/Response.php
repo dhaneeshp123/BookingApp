@@ -39,33 +39,30 @@ class Response
         );
     }
 
-    public function outputSuccessResponse(array $result)
+    /**
+     * @param array $result
+     * @return array
+     */
+    public function getSuccessResponse(array $result): array
     {
-        $this->outputJson(
+        return
             [
                 'status' => self::RESPONSE_STATUS_SUCCESS,
                 'statusCode' => self::RESPONSE_SUCCESS_CODE,
                 'result' => $result,
-            ]
-        );
+            ];
     }
 
-    public function outputErrorMessage(array $result)
+    public function getErrorResponse(array $result)
     {
-        $this->outputJson(
+        return
             [
                 'status' => self::RESPONSE_STATUS_FAILED,
                 'statusCode' => self::RESPONSE_SUCCESS_CODE,
                 'errors' => $result,
-            ]
-        );
+            ];
+
     }
-    
-    public function output(
-        int $status = self::RESPONSE_STATUS_SUCCESS,
-        array $headers = [],
-        $body
-    ){
-    }
+
 
 }

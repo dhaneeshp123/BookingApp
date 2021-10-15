@@ -18,7 +18,7 @@ class Controller
 
     public function home(Request $request,Response $response)
     {
-        echo 'index';
+        return $response->getSuccessResponse( ['index']);
     }
 
 }

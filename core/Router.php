@@ -43,7 +43,7 @@ class Router
                 }
                 $callback[0] = $controller;
             }
-            call_user_func($callback,$this->request,$this->response);
+            $this->response->outputJson(call_user_func($callback,$this->request,$this->response));
         } else {
             $this->response->getPageNotFoundResponse();
         }

@@ -18,6 +18,8 @@ class BookingModel extends Model
 
     protected string $bookingdate;
 
+    protected string $bookingCode;
+
     protected string $tableName = 'booking';
 
     protected function getAttributes(): array
@@ -33,8 +35,12 @@ class BookingModel extends Model
     {
         $trip = new TripModel();
         try {
+
             $this->connection->beginTransaction();
             $trip->getConnection()->beginTransaction();
+            if($this->numofslots < 1) {
+                throw new Exception('The slot booked should be more than 1');
+            }
             $tripObj = $trip->selectForUpdate(['availableslots'],['id' => $this->tripid]);
             if ($tripObj) {
                 $availableSlots = $tripObj->availableslots;

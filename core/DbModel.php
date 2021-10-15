@@ -2,6 +2,7 @@
 
 namespace app\core;
 
+use PhpParser\Node\Expr\Cast\Object_;
 use Ramsey\Uuid\Uuid;
 
 abstract class DbModel
@@ -46,10 +47,11 @@ abstract class DbModel
      */
     public function getById(string $id): ?DbModel
     {
+
         $stmt = "select * from " . $this->tableName . " where id='" . $id . "'";
         $result = $this->connection->select($stmt);
-        if (is_array($result)) {
-            return $this->getSingleObject($result);
+        if (isset($result[0])) {
+            return $this->getSingleObject($result[0]);
         }
         return null;
     }
@@ -128,12 +130,12 @@ abstract class DbModel
      * @param array $condition
      * @return Object|null
      */
-    public function selectForUpdate(array $selectFields, array $condition): ?Object
+    public function selectForUpdate(array $selectFields, array $condition):?Object
     {
         $sql = "SELECT " . join(',', $selectFields) . " FROM " . $this->getTableName() . " WHERE " . $this->prepareAndWhere($condition) . ' FOR UPDATE';
         $result = $this->connection->select($sql,Connection::RETURN_TYPE_OBJECT);
-        if ( $result) {
-            return $result;
+        if ( $result[0]) {
+            return $result[0];
         }
         return null;
     }
