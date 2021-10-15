@@ -6,17 +6,12 @@ use app\core\Controllers\Controller;
 
 class Router
 {
-    /**
-     * @var array
-     */
-    protected $routes = [];
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    protected array $routes = [];
 
-    protected $response;
+    protected Request $request;
+
+    protected Response $response;
 
     public function __construct(Request $request, Response $response)
     {

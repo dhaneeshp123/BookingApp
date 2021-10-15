@@ -4,6 +4,8 @@ namespace app\core;
 
 class Request
 {
+    private array $bodyData = [];
+
     public function getPath(): string
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -29,13 +31,32 @@ class Request
         return $this->getMethod() === 'get';
     }
 
-    public function getBody():array
+
+    public function setBody(array $bodyData)
+    {
+        $this->bodyData = $bodyData;
+    }
+
+    public function getBody(): array
     {
         $bodyData = [];
+
         if ($this->isGet()) {
-            $bodyData = array_filter($_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        } elseif ($this->isPost()){
-            $bodyData = array_filter($_POST,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if (count($_GET) > 0) {
+                foreach ($_GET as $key => $value){
+                    $bodyData[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                }
+
+            }
+
+        } elseif ($this->isPost()) {
+            if (count($_POST) > 0) {
+                foreach ($_POST as $key => $value) {
+                    $bodyData[$key]= filter_input(INPUT_POST, $key,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                }
+            }
+        }else{
+            $bodyData = $this->bodyData;
         }
         return $bodyData;
     }

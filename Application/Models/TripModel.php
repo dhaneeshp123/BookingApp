@@ -8,19 +8,28 @@ use app\core\Model;
 
 class TripModel extends Model
 {
-    /** @var int */
-   protected $availableSlots;
+    public static bool $DB_UPDATE_RUNNING = false;
 
-   protected $totalSlots;
+    protected int $availableslots;
 
-   protected $tableName = 'trip';
+    protected int $totalslots;
+
+    protected string $name;
+
+    /** @var string */
+    protected string $tableName = 'trip';
+
+    protected function getAttributes(): array
+    {
+        return ['availableslots','totalslots','name'];
+    }
 
     /**
      * @return int
      */
     public function getAvailableSlots(): int
     {
-        return $this->availableSlots;
+        return $this->availableslots;
     }
 
     /**
@@ -28,15 +37,15 @@ class TripModel extends Model
      */
     public function setAvailableSlots(int $availableSlots): void
     {
-        $this->availableSlots = $availableSlots;
+        $this->availableslots = $availableSlots;
     }
 
     /**
      * @return mixed
      */
-    public function getTotalSlots()
+    public function getTotalSlots(): int
     {
-        return $this->totalSlots;
+        return $this->totalslots;
     }
 
     /**
@@ -44,7 +53,7 @@ class TripModel extends Model
      */
     public function setTotalSlots($totalSlots): void
     {
-        $this->totalSlots = $totalSlots;
+        $this->totalslots = $totalSlots;
     }
 
 }

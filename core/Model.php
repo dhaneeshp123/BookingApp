@@ -7,12 +7,7 @@ namespace app\core;
 abstract class Model extends DbModel
 {
 
-    protected $id;
-
-    protected function getAttributes(): array
-    {
-        return [];
-    }
+    protected string $id;
 
     public function getId()
     {
