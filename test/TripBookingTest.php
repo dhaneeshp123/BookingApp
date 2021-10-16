@@ -3,6 +3,9 @@
 namespace test;
 
 use app\Application\Controllers\BookingController;
+use app\Application\Controllers\TripManagerController;
+use app\Application\Models\BookingModel;
+use app\Application\Models\CancellationModel;
 use app\Application\Models\TripModel;
 use app\core\Application;
 use app\core\Connection;
@@ -78,7 +81,7 @@ final class TripBookingTest extends TestCase
         $this->assertEquals(Response::RESPONSE_STATUS_SUCCESS, $response['status']);
         $this->assertNotEmpty($response['result']['bookingId']);
         $trip1 = (new TripModel())->getById($trip->getId());
-        $this->assertEquals(1,$trip1->getAvailableSlots());
+        $this->assertEquals(1, $trip1->getAvailableSlots());
     }
 
     public function testFailedBookingByMoreThanAvailableSlots()
@@ -99,7 +102,7 @@ final class TripBookingTest extends TestCase
         $this->assertEquals(Response::RESPONSE_STATUS_FAILED, $response['status']);
         $this->assertNotEmpty($response['errors']);
         $trip1 = (new TripModel())->getById($trip->getId());
-        $this->assertEquals($availableSlots,$trip1->getAvailableSlots());
+        $this->assertEquals($availableSlots, $trip1->getAvailableSlots());
     }
 
     public function testCancelBookingSuccess()
@@ -122,14 +125,14 @@ final class TripBookingTest extends TestCase
         //try to cancel less number as booking
         $request2 = $this->getMockBuilder(Request::class)->getMock();
         $request2->method('getBody')->willReturn(
-          ['bookingId' => $bookingId, 'cancelled' => $canceledSlots]
+            ['bookingId' => $bookingId, 'cancelled' => $canceledSlots]
         );
         $response = new Response();
         $response = call_user_func([new BookingController(), 'postCancelBooking'], $request2, $response);
         $this->assertEquals(Response::RESPONSE_STATUS_SUCCESS, $response['status']);
         $this->assertNotEmpty($response['result']['cancellationId']);
         $trip = (new TripModel())->getById($trip->getId());
-        $this->assertEquals($availableSlots - $bookingSlots + $canceledSlots ,$trip->getAvailableSlots());
+        $this->assertEquals($availableSlots - $bookingSlots + $canceledSlots, $trip->getAvailableSlots());
     }
 
     public function testCancelBookingFailBecauseOfCancelingMoreSlotsThanBooked()
@@ -158,7 +161,57 @@ final class TripBookingTest extends TestCase
         $response = call_user_func([new BookingController(), 'postCancelBooking'], $request2, $response);
         $this->assertEquals(Response::RESPONSE_STATUS_FAILED, $response['status']);
         $trip = (new TripModel())->getById($trip->getId());
-        $this->assertEquals($availableSlots - $bookingSlots ,$trip->getAvailableSlots());
+        $this->assertEquals($availableSlots - $bookingSlots, $trip->getAvailableSlots());
+    }
+
+    public function testTripManager()
+    {
+        $data = [];
+        include_once 'test/data/trip_booking_cancellation.php';
+        $tripObjects = [];
+        $bookingObjects = [];
+        $cancellationObjects = [];
+        // create trips
+        $this->assertNotEmpty($data['trips']);
+        $this->assertIsArray($data['trips']);
+        foreach ($data['trips'] as $trip) {
+            $tripObj = new TripModel();
+            $tripObj->loadData($trip);
+            $tripObj->create();
+            $tripObjects[] = $tripObj;
+        }
+        $this->assertGreaterThanOrEqual(1, count($tripObjects));
+        $this->assertSameSize($data['trips'], $tripObjects);
+        $this->assertNotEmpty($data['bookings']);
+        $this->assertIsArray($data['bookings']);
+        foreach ($data['bookings'] as $booking) {
+            $bookingObj = new BookingModel();
+            $this->assertNotNull($tripObjects[$booking['tripIdentifier']]);
+            $tripObj = $tripObjects[$booking['tripIdentifier']];
+            $booking['tripid'] = $tripObj->getId();
+            $bookingObj->loadData($booking);
+            $bookingObj->create();
+            $bookingObjects[] = $bookingObj;
+        }
+        $this->assertSameSize($data['bookings'],$bookingObjects);
+        $this->assertIsArray($data['cancellations']);
+        foreach($data['cancellations'] as $cancellation) {
+            $cancellationObj = new CancellationModel();
+            $this->assertNotNull($bookingObjects[$cancellation['bookingIdentifier']]);
+            $bookingObj = $bookingObjects[$cancellation['bookingIdentifier']];
+            $cancellation['bookingid'] = $bookingObj->getId();
+            $cancellationObj->loadData($cancellation);
+            $cancellationObj->create();
+            $cancellationObjects[] = $cancellationObj;
+        }
+        /** @var MockObject|Request $request */
+        $request = $this->getMockBuilder(Request::class)->getMock();
+        $request->method('getMethod')->willReturn('GET');
+        $response = new Response();
+        $response = call_user_func([new TripManagerController(), 'getBookings'], $request, $response);
+        $this->assertEquals(Response::RESPONSE_STATUS_SUCCESS, $response['status']);
+        $this->assertIsArray($response['result']);
+
     }
 
     protected function tearDownDatabase()
