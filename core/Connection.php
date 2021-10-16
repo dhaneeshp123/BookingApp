@@ -24,7 +24,6 @@ class Connection
             $this->dbConnection = new PDO("mysql:host=$serverName;dbname=$databaseName",$config['database_username'],$config['database_password']);
             $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch (\Exception $exception){
-            echo $exception->getMessage();
             die( 'DB Connection failed');
         }
     }
@@ -67,8 +66,4 @@ class Connection
         $this->dbConnection->lastInsertId('id');
     }
 
-    public function __destruct()
-    {
-       // $this->dbConnection = null;
-    }
 }

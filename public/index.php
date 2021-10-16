@@ -1,6 +1,7 @@
 <?php
 
 use app\Application\Controllers\BookingController;
+use app\Application\Controllers\TripController;
 use app\Application\Controllers\TripManagerController;
 use app\core\Application;
 use app\core\Controllers\Controller;
@@ -12,6 +13,8 @@ require_once '../config/config.php';
 $app = new Application($config);
 
 $app->router->get('/', [Controller::class, 'home']);
+$app->router->post('/trip/create',[TripController::class,'postTrip']);
+$app->router->get('/trip/list',[TripController::class,'getTripList']);
 $app->router->post('/booking/create', [BookingController::class, 'postNewBooking']);
 $app->router->post('/booking/cancel', [BookingController::class, 'postCancelBooking']);
 $app->router->get('/trip-manager/bookings',[TripManagerController::class,'getBookings']);
