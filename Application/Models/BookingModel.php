@@ -105,7 +105,6 @@ class BookingModel extends Model
                 'booking' => $booking,
                 'cancellations' => $cancellations,
             ];
-
         }
         return ['bookings' => $bookingData];
     }
