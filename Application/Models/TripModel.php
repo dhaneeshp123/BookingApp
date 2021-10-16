@@ -56,4 +56,12 @@ class TripModel extends Model
         $this->totalslots = $totalSlots;
     }
 
+    /**
+     * @return array
+     */
+    public function getTripList()
+    {
+        return $this->fetchAll();
+    }
+
 }

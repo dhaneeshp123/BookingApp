@@ -101,9 +101,9 @@ class BookingModel extends Model
         $bookingData = [];
         foreach($bookings as $booking){
             $cancellations = (new CancellationModel())->findBy(['bookingid' => $booking['id']]);
+            $booking['cancellations'] = $cancellations;
             $bookingData[] = [
                 'booking' => $booking,
-                'cancellations' => $cancellations,
             ];
         }
         return ['bookings' => $bookingData];

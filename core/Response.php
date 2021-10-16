@@ -13,14 +13,17 @@ class Response
     public const RESPONSE_FAILED_REASON_404 = 'Page/Method not found';
 
     public const RESPONSE_SUCCESS_CODE = 200;
+
     public const RESPONSE_PAGE_NOT_FOUND = 404;
 
 
     public function __construct()
     {
-
     }
 
+    /**
+     * @param array $jsonArray
+     */
     public function outputJson(array $jsonArray)
     {
         header("Content-Type:application/json;chartset=utf-8");
@@ -53,6 +56,10 @@ class Response
             ];
     }
 
+    /**
+     * @param array $result
+     * @return array
+     */
     public function getErrorResponse(array $result)
     {
         return
@@ -61,8 +68,6 @@ class Response
                 'statusCode' => self::RESPONSE_SUCCESS_CODE,
                 'errors' => $result,
             ];
-
     }
-
 
 }

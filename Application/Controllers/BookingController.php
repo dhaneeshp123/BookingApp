@@ -4,7 +4,6 @@ namespace app\Application\Controllers;
 
 use app\Application\Models\BookingModel;
 use app\Application\Models\CancellationModel;
-use app\Application\Models\TripModel;
 use app\core\Controllers\Controller;
 use app\core\Request;
 use app\core\Response;
@@ -13,13 +12,12 @@ use Exception;
 class BookingController extends Controller
 {
 
-
     /**
      * @param Request $request
      * @param Response $response
      * @return array
      */
-    public function postNewBooking(Request $request, Response $response):array
+    public function postNewBooking(Request $request, Response $response): array
     {
         $body = $request->getBody();
         $successOutputData = [];
@@ -36,7 +34,7 @@ class BookingController extends Controller
             } else {
                 return $response->getErrorResponse(
                     [
-                        'Error : Required field tripId is missing' ,
+                        'Error : Required field tripId is missing',
                     ]
                 );
             }
@@ -51,17 +49,17 @@ class BookingController extends Controller
         return $response->getSuccessResponse($successOutputData);
     }
 
-    public function postCancelBooking(Request $request, Response $response):array
+    public function postCancelBooking(Request $request, Response $response): array
     {
         $successOutputData = [];
         $errors = [];
         try {
             $input = $request->getBody();
-            if( isset($input['bookingId'])){
-                if( ! isset($input['cancelled']) ){
+            if (isset($input['bookingId'])) {
+                if (!isset($input['cancelled'])) {
                     $errors[] = 'Required field cancelled is missing';
-                }else {
-                    if((int)$input['cancelled'] > 0) {
+                } else {
+                    if ((int)$input['cancelled'] > 0) {
                         $cancellation = new CancellationModel();
                         $cancellation->loadData($input);
                         $id = $cancellation->cancelBooking();
@@ -70,7 +68,7 @@ class BookingController extends Controller
                                 'cancellationId' => $id,
                             ];
                         }
-                    }else {
+                    } else {
                         $errors[] = 'cancelled value should be more than or equal to 1';
                     }
                 }
