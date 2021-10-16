@@ -50,6 +50,6 @@ class TripController extends \app\core\Controllers\Controller
     {
         $trip = new TripModel();
         $data = $trip->getTripList();
-        return $response->getSuccessResponse(['result' => $data]);
+        return $response->getSuccessResponse($data);
     }
 }

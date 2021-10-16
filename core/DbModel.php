@@ -148,15 +148,35 @@ abstract class DbModel
         return $this->connection;
     }
 
+    /**
+     * @return array
+     */
     public function fetchAll():array
     {
         $sql = "SELECT * FROM " . $this->getTableName();
         return $this->connection->select($sql);
     }
 
+    /**
+     * @param array $condition
+     * @return array
+     */
     public function findBy(array $condition):array
     {
         $sql = "SELECT * FROM " . $this->getTableName() . " WHERE " . $this->prepareAndWhere($condition) ;
         return $this->connection->select($sql);
+    }
+
+    /**
+     * @param array $condition
+     * @return array|null
+     */
+    public function findOneBy(array $condition):?array
+    {
+        $result = $this->findBy($condition);
+        if(is_array($result) && count($result) > 0){
+            return $result[0];
+        }
+        return null;
     }
 }
