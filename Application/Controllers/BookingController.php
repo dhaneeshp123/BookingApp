@@ -49,6 +49,11 @@ class BookingController extends Controller
         return $response->getSuccessResponse($successOutputData);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return array
+     */
     public function postCancelBooking(Request $request, Response $response): array
     {
         $successOutputData = [];

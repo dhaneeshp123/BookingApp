@@ -6,6 +6,9 @@ class Request
 {
     private array $bodyData = [];
 
+    /**
+     * @return string
+     */
     public function getPath(): string
     {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -16,6 +19,9 @@ class Request
         return substr($path, 0, $position);
     }
 
+    /**
+     * @return string
+     */
     public function getMethod(): string
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
@@ -26,17 +32,25 @@ class Request
         return $this->getMethod() === 'post';
     }
 
+    /**
+     * @return bool
+     */
     public function isGet(): bool
     {
         return $this->getMethod() === 'get';
     }
 
-
+    /**
+     * @param array $bodyData
+     */
     public function setBody(array $bodyData)
     {
         $this->bodyData = $bodyData;
     }
 
+    /**
+     * @return array
+     */
     public function getBody(): array
     {
         $bodyData = [];
@@ -48,7 +62,6 @@ class Request
                 }
 
             }
-
         } elseif ($this->isPost()) {
             if (count($_POST) > 0) {
                 foreach ($_POST as $key => $value) {
@@ -60,4 +73,5 @@ class Request
         }
         return $bodyData;
     }
+
 }

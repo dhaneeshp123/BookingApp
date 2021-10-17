@@ -14,6 +14,9 @@ abstract class Model extends DbModel
         return $this->id;
     }
 
+    /**
+     * @param array $data
+     */
     public function loadData(array $data)
     {
         $attributes = $this->getAttributes();
@@ -26,4 +29,5 @@ abstract class Model extends DbModel
             }
         }
     }
+
 }

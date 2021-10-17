@@ -95,6 +95,9 @@ class BookingModel extends Model
         return $this->bookingdate;
     }
 
+    /**
+     * @return array[]
+     */
     public function getBookings():array
     {
         $bookings = $this->fetchAll();
@@ -110,4 +113,5 @@ class BookingModel extends Model
         }
         return ['bookings' => $bookingData];
     }
+
 }

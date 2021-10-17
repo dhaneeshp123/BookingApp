@@ -13,17 +13,30 @@ class Router
 
     protected Response $response;
 
+    /**
+     * Router constructor.
+     * @param Request $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
         $this->response = $response;
     }
 
+    /**
+     * @param $path
+     * @param $callback
+     */
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
     }
 
+    /**
+     * @param $path
+     * @param $callback
+     */
     public function post($path, $callback)
     {
         $this->routes['post'][$path] = $callback;

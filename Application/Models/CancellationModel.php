@@ -38,6 +38,10 @@ class CancellationModel extends Model
         return $this->cancelled;
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function cancelBooking():string
     {
         $trip = new TripModel();

@@ -11,11 +11,11 @@ class Controller
 {
     public $action = 'home';
 
-    public function __construct()
-    {
-
-    }
-
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return array
+     */
     public function home(Request $request,Response $response)
     {
         return $response->getSuccessResponse( ['index']);

@@ -19,6 +19,9 @@ class TripModel extends Model
     /** @var string */
     protected string $tableName = 'trip';
 
+    /**
+     * @return string[]
+     */
     protected function getAttributes(): array
     {
         return ['availableslots','totalslots','name'];

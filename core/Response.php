@@ -16,11 +16,6 @@ class Response
 
     public const RESPONSE_PAGE_NOT_FOUND = 404;
 
-
-    public function __construct()
-    {
-    }
-
     /**
      * @param array $jsonArray
      */

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace app\core;
 
-
 use PDO;
+use PDOStatement;
 
 class Connection
 {
@@ -28,22 +27,34 @@ class Connection
         }
     }
 
-    public function execute(string $sql): bool
-    {
-        $stmt = $this->dbConnection->prepare($sql);
-        return $stmt->execute();
-    }
-
-    public function select(string $sql,int $mode = self::RETURN_TYPE_ASSOC)
-    {
-        $stmt = $this->dbConnection->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll($mode);
-    }
-
+    /**
+     * @param string $sql
+     * @return false|PDOStatement
+     */
     public function prepare(string $sql)
     {
-        $this->dbConnection->prepare($sql);
+        return $this->dbConnection->prepare($sql);
+    }
+
+    /**
+     * @param string $sql
+     * @return bool
+     */
+    public function execute(string $sql): bool
+    {
+        return ($this->prepare($sql))->execute();
+    }
+
+    /**
+     * @param string $sql
+     * @param int $mode
+     * @return array
+     */
+    public function select(string $sql,int $mode = self::RETURN_TYPE_ASSOC)
+    {
+        $stmt = $this->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll($mode);
     }
 
     public function beginTransaction()
@@ -59,11 +70,6 @@ class Connection
     public function rollBack()
     {
         $this->dbConnection->rollBack();
-    }
-
-    public function getLastInsertId()
-    {
-        $this->dbConnection->lastInsertId('id');
     }
 
 }

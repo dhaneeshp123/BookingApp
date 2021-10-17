@@ -8,6 +8,11 @@ use app\core\Response;
 
 class TripController extends \app\core\Controllers\Controller
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return array
+     */
     public function postTrip(Request $request, Response $response)
     {
         $input = $request->getBody();
@@ -46,10 +51,16 @@ class TripController extends \app\core\Controllers\Controller
         return $response->getErrorResponse($errors);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return array
+     */
     public function getTripList(Request $request,Response $response)
     {
         $trip = new TripModel();
         $data = $trip->getTripList();
         return $response->getSuccessResponse($data);
     }
+
 }

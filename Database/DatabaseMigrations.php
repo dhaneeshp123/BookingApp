@@ -15,6 +15,9 @@ abstract class DatabaseMigrations extends \app\core\Migrations
         parent::__construct($env, $argv, $argc);
     }
 
+    /**
+     * @return string[]
+     */
     protected function getAllowedMethods(): array
     {
         return ['up','down'];

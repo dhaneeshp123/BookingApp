@@ -26,11 +26,20 @@ abstract class Migrations
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getAllowedMethods():array
     {
         return [];
     }
 
+    /**
+     * Migrations constructor.
+     * @param $env
+     * @param $argv
+     * @param $argc
+     */
     public function __construct($env, $argv, $argc)
     {
         if ($argc < 2 || !in_array($argv[1], $this->getAllowedMethods())) {
@@ -47,7 +56,9 @@ abstract class Migrations
         $this->checkAndCreateMigrationTable();
     }
 
-
+    /**
+     * @param string $sql
+     */
     final protected function addSql(string $sql)
     {
         $this->sql[] = $sql;

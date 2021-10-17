@@ -12,6 +12,10 @@ class Application
 
     public static array $config = [];
 
+    /**
+     * Application constructor.
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->request = new Request();
@@ -24,4 +28,5 @@ class Application
     {
         $this->router->resolve();
     }
+
 }
