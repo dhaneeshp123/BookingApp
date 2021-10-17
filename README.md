@@ -9,11 +9,18 @@
 <ol>
     <li>Download the code</li>
     <li>Configure database properties in <pre>config/config.php</pre></li>
-    <li>Run <pre>composer install</pre></li>  
-    <li>Run <pre>php migrations.php up</pre></li>
-    <li>Run <pre>php -S localhost:8080</pre></li>
+    <li>Execute the command <pre>composer install</pre></li>  
+    <li>Execute the command <pre>php migrations.php up</pre></li>
+    <li>
+    Go to the public folder and execute the command<br/>
+<pre>php -S localhost:8080</pre></li>
 </ol>
 
 The API documentation can be found at
 
 https://documenter.getpostman.com/view/2217038/UV5WDJ62
+
+<br/>
+<strong>Testing</strong>
+Execute the command
+<pre>php vendor/bin/phpunit --testdox test</pre>
