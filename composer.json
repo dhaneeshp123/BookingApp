@@ -1,0 +1,24 @@
+{
+  "name": "dhane/booking-app",
+  "description": "A booking app",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Dhaneesh Padmalayam",
+      "email": "dhaneeshp@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "app\\": "./"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ramsey/uuid": "^4.2",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
