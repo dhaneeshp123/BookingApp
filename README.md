@@ -21,6 +21,6 @@ The API documentation can be found at
 https://documenter.getpostman.com/view/2217038/UV5WDJ62
 
 <br/>
-<strong>Testing</strong>
+<strong>Testing</strong><br /><br />
 Execute the command
 <pre>php vendor/bin/phpunit --testdox test</pre>
