@@ -12,6 +12,8 @@ abstract class Migrations
 
     private array $sql = [];
 
+    private string $env;
+
     private function checkAndCreateMigrationTable()
     {
         $result = $this->connection->select('SHOW TABLES LIKE "migrations"');
@@ -48,6 +50,7 @@ abstract class Migrations
         }
         $this->method = $argv[1];
         $this->alreadyExecutedMigrations[$this->method] = [];
+        $this->env = $env;
         putenv("APP_ENV=" . $env);
         $config = [];
         include "config/config.php";
@@ -69,7 +72,7 @@ abstract class Migrations
         call_user_func([$this, $this->method]);
         $className = get_class($this);
         if (!in_array($className, $this->alreadyExecutedMigrations[$this->method])) {
-            echo 'Migrations ' . $this->method . ' applied to ' . $className . "\n";
+            echo 'Migrations ' . $this->method . ' applied to ' . $className . " for $this->env\n";
             $this->connection->execute('DELETE FROM migrations WHERE path="' . $className . '"');
             $this->connection->execute('INSERT INTO migrations (path,method) values("' . $className . '","' . $this->method . '")');
             foreach ($this->sql as $sql) {
